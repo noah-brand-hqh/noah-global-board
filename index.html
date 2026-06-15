@@ -129,6 +129,19 @@
   .dt-band{color:#fff;padding:24px 28px}
   .dt-loc{font-size:13px;font-weight:700;opacity:.95}
   .dt-title{font-size:21px;font-weight:800;line-height:1.4;margin-top:8px}
+  .detail{max-height:92vh;overflow-y:auto}
+  .iv-tabs{display:flex;gap:6px;padding:10px 12px;background:#0c1118}
+  .iv-tab{flex:1;border:none;background:rgba(255,255,255,.08);color:#cdd5e0;font-size:12.5px;font-weight:700;padding:8px;border-radius:9px;cursor:pointer}
+  .iv-tab.on{background:var(--gold);color:#1a1205}
+  .iv-pane{display:none}.iv-pane.on{display:block}
+  .iv-pane.poster{background:#11161d}.iv-pane.poster img{width:100%;display:block}
+  .iv-pane.copy{background:#fff;padding:22px 24px}
+  .copy-text{font-size:13.5px;line-height:1.9;color:#2a3340;white-space:pre-wrap}
+  .copy-signup{margin-top:14px;padding:11px 13px;background:#faf6ec;border:1px solid #ece1c6;border-radius:10px;font-size:12.5px;color:#7a6326;font-weight:700;white-space:pre-wrap;line-height:1.7}
+  .copybtn{margin-top:14px;width:100%;border:none;background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:11px;border-radius:10px;cursor:pointer}
+  .copybtn:hover{background:var(--navy2)}
+  .ldfail{padding:50px 20px;text-align:center;color:#cdd5e0;font-size:13px}
+  .dt-rows{padding:20px 28px 24px}
   .dt-body{padding:22px 28px 26px}
   .dt-r{display:flex;gap:14px;padding:9px 0;font-size:13.5px;border-bottom:1px solid #f2f0ea}
   .dt-r:last-child{border:none}
@@ -151,16 +164,7 @@
   <div class="region-bar" id="regionBar"></div>
   <div class="kpis" id="kpis"></div>
 
-  <div class="grid2">
-    <div class="card"><h2>按地区分布</h2><div class="bars" id="regionDist"></div></div>
-    <div class="card"><h2>按活动属性</h2><div class="donut-row"><div class="donut"><svg id="donut" viewBox="0 0 42 42"></svg></div><div class="legend" id="attrLegend"></div></div></div>
-  </div>
-  <div class="grid2">
-    <div class="card"><h2>按月份分布</h2><div class="bars" id="monthBars"></div></div>
-    <div class="card"><h2>按报名状态</h2><div class="segbar" id="statusSeg"></div><div class="seglegend" id="statusLegend"></div></div>
-  </div>
-
-  <div class="card" style="margin-bottom:0">
+  <div class="card" style="margin-bottom:22px">
     <div class="toolbar">
       <div class="search"><input id="searchInput" type="text" placeholder="搜索活动名称 / 城市 / 场地…"></div>
       <div class="view-tog"><button id="vTime" class="on">⏱ 按时间</button><button id="vRegion">🌍 按地区</button></div>
@@ -171,6 +175,15 @@
       <span class="tt" style="margin-left:6px">状态</span><span id="statusChips"></span>
     </div>
     <div id="timeline"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2>按地区分布</h2><div class="bars" id="regionDist"></div></div>
+    <div class="card"><h2>按活动属性</h2><div class="donut-row"><div class="donut"><svg id="donut" viewBox="0 0 42 42"></svg></div><div class="legend" id="attrLegend"></div></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>按月份分布</h2><div class="bars" id="monthBars"></div></div>
+    <div class="card"><h2>按报名状态</h2><div class="segbar" id="statusSeg"></div><div class="seglegend" id="statusLegend"></div></div>
   </div>
 
   <footer><div class="sl">诺亚　懂金融，更懂华人。</div><div style="margin-top:6px">诺亚 · ARK Wealth　全球活动看板</div></footer>
@@ -237,6 +250,89 @@ const EVENTS=[
  {id:48,start:'',days:1,week:'',month:'',weekday:'',time:'待定',region:'日本',title:'「Overseas Study」走进日本',attr:'海外考察',newClient:'Y',guest:'',target:'',venue:'日本',cap:null,reg:null,status:'筹备中'},
  {id:49,start:'',days:1,week:'',month:'',weekday:'',time:'待定',region:'日本',title:'Olive走进日本（全委客户专场）',attr:'海外考察',newClient:'VIP',guest:'',target:'',venue:'日本',cap:null,reg:null,status:'筹备中'},
 ];
+const INVITE_IMG={
+  6:'invites/ev5-japan.png',
+  7:'invites/ev6.jpg',
+  9:'invites/ev7.png',
+  12:'invites/ev-duanwu.png',
+  13:'invites/ev8.png',
+  17:'invites/ev9.jpg',
+  19:'invites/ev10.jpg'
+};
+const INVITE_COPY={
+  7:{text:`Hi，邀请您参加我们在 6 月 12 日（周五）晚上 7:00 举办的 Wine Tasting 英文品酒体验活动。
+
+📍 地点：69 Belmont Rd, Singapore 269901
+
+这次活动会以轻松的品酒社交形式进行。大家可以一边品尝不同类型的葡萄酒，一边学习实用的英文表达，包括：
+
+• 常见酒类和葡萄酒品种的正确英文发音
+• 在餐厅或酒吧如何自然、优雅地用英文点酒
+• 如何用英文描述酒的香气、口感和风味
+• 品酒场合中常用的社交英语表达
+
+本次活动采用 Bring Your Own Bottle 的形式，每位参加者带一瓶酒即可，建议价格在 100–200 新币。这样大家可以一起分享和品鉴不同风格的酒。
+
+当天没有喝完的酒，我们会帮您妥善保存。之后参加下一次 Wine Tasting 活动时，可以继续品尝，无需另外带酒。
+
+整个活动会比较轻松，不需要具备专业品酒知识。主要是希望大家在愉快的氛围中，练习真正能用得上的英文，也认识一些有趣的新朋友。
+
+欢迎您一起来参加 🍷`},
+  9:{text:`🦁 一座花园之城，读懂全球华人的财富未来。
+
+🇸🇬 新加坡，是全球资本与华人家族共同选择的坐标。6 月 16 日–18 日三天，我们带您走进狮城的肌理：从清晨街巷的书话漫步，到 AI 与资本市场的最前沿；从建国企业的长期主义，到一蔬一饭的人间烟火。
+
+🫵🏻 走进 Noah Ark 新加坡，谈穿越周期的判断，与同行者一起，把"立足新加坡、配置全球"从一句话，变成可触可感的路径。`,signup:`📩 报名：ARK Singapore 客户经理`},
+  12:{text:`【N+ 端午雅集 · 一江之水 · 万里同舟】
+Noah ARK Singapore · 2026 端午私席
+
+每年五月初五，江南老家的母亲会一早起来，把粽叶在井水里浸到发亮，把糯米、咸蛋黄、火腿肉一颗颗码进绿色的怀抱里。那是很多年前的事了。
+后来，我们一个个走出那个夏天的厨房，走过香港、上海、东京、纽约，走到新加坡的赤道与四季无声的暖风里。
+
+孩子们慢慢长大了。他们说着流利的英文、Singlish，知道 Vesak、Deepavali、Hari Raya Puasa，但或许还没真正听过——一个关于"屈原"的故事；一条叫"汨罗"的江；一只粽子，为什么要用绿色的叶子裹起来。
+
+2026 年 6 月 19 日（农历五月初五）端午当日的傍晚，Noah ARK Singapore 邀请您和家人回到 N+ 会所，过一个有粽香、有故事、有同舟人的端午节。
+
+我们准备了——
+▫ 一位老师，为孩子们讲屈原、讲《离骚》、讲一江之水如何流过两千三百年
+▫ 一场亲子裹粽 workshop（不论会不会，糯米和粽叶比答案更重要）
+让"五月初五"的傍晚慢下来。
+
+▫ 这场端午，为这样的家庭而设——
+· 有孩子在新加坡国际或本地学校就读、希望他们听得懂中文里温柔故事的家庭
+· 刚开启狮城新生活、想让孩子在新土地上记得旧节气的家庭
+· 老移民家庭，想和老朋友再过一个像家一样的中国节
+· 三代同堂的家族，希望长辈、孩子、父母三辈人在异乡共度一个完整的节日
+
+▫ 一江之水，万里同舟
+诺亚团队相信——财富的传承，从来不只是数字的递交。更是一只粽子的叶香、一段古琴的余韵、一个被认真讲过的故事，在两代人、三代人之间，完成的那次安静的交付。
+我们走了很远。但有些东西，始终在每个五月初五的傍晚，等着我们回头。
+
+📅 时间 | 2026 年 6 月 19 日（周五 · 农历五月初五）16:00–21:00
+📍 地点 | Noah ARK Singapore · N+ 会所
+🎟 席位 | 限 9 组家庭 · 全家欢迎 · 含孩子
+
+诺亚 懂金融，更懂华人。
+NOAH — In Finance, In Heritage.`,signup:`🔗 报名 | 请联系您的诺亚 RM 或扫码登记`},
+  13:{text:`🏙 走进上海 · 与诺亚同行
+致新加坡品牌伙伴的专属邀约 · 6.21–6.23
+
+三天，从陆家嘴的灯火到外滩的廊柱，从一桌好菜到一席江风。我们以诺亚的方式，邀新加坡的伙伴走进上海——看诺亚如何承接全球华人家族，也看这座城市的财富，如何从过去走向未来。
+
+【Day 1 · 6月21日｜抵沪】
+接风 · 安顿　入住虹桥香格里拉盛贸酒店
+
+【Day 2 · 6月22日｜一日看懂诺亚】
+09:30–12:00　走进上海诺亚财富中心（品牌顾问闭门赋能 · 唐卡艺术展 · N+ 宝库）
+12:30–14:00　N+ 私享午宴
+14:30–15:30　走进上海吉宝总部（Keppel）
+16:00–17:30　外滩 · 百年金融之行
+18:00–20:00　浦江晚宴
+21:00 起　返回虹桥香格里拉盛贸酒店休憩
+
+【Day 3 · 6月23日｜自由返程】
+睡到自然醒——把上海的余味带回新加坡。`,signup:`📩 凭邀请同行 · 仅限受邀新加坡品牌伙伴`}
+};
 
 const MONTHS=['2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10'];
 const fmtMo=m=>({'2026-04':'4月','2026-05':'5月','2026-06':'6月','2026-07':'7月','2026-08':'8月','2026-09':'9月','2026-10':'10月'}[m]||m);
@@ -340,6 +436,10 @@ function evCard(e){
   </div>`;
 }
 function grid(evs){return `<div class="ev-grid">${evs.map(evCard).join('')}</div>`;}
+function gridByMonth(evs){
+  const ms=[...new Set(evs.map(e=>e.month))];
+  return ms.map(m=>`<div class="month-tag">📅 ${fmtMo(m)}　${m?m.split('-')[0]:''}　·　${evs.filter(e=>e.month===m).length} 场</div>${grid(evs.filter(e=>e.month===m))}`).join('');
+}
 const byDate=(a,b)=>(a.start||'9').localeCompare(b.start||'9');
 
 /* render content (time / region view) */
@@ -357,27 +457,38 @@ function render(){
     const undated=list.filter(e=>!e.start);
     const up=list.filter(e=>e.start&&!isPast(e)).sort(byDate);
     const past=list.filter(isPast).sort(byDate);
-    if(up.length) html+=`<div class="tl-sec"><div class="sec-h"><span class="sdot"></span>进行中 / 即将开展<span class="cnt" style="background:var(--s-open)">${up.length}</span></div>${grid(up)}</div>`;
+    if(up.length) html+=`<div class="tl-sec"><div class="sec-h"><span class="sdot"></span>进行中 / 即将开展<span class="cnt" style="background:var(--s-open)">${up.length}</span></div>${gridByMonth(up)}</div>`;
     if(undated.length) html+=`<div class="tl-sec tbd"><div class="sec-h"><span class="sdot"></span>待定 / 未定档<span class="cnt" style="background:var(--s-plan)">${undated.length}</span></div>${grid(undated)}</div>`;
-    if(past.length) html+=`<div class="tl-sec dim collapsed"><div class="sec-h sec-toggle"><span class="caret">▸</span><span class="sdot"></span>已过期<span class="cnt" style="background:var(--s-closed)">${past.length}</span></div><div class="sec-body">${grid(past)}</div></div>`;
+    if(past.length) html+=`<div class="tl-sec dim collapsed"><div class="sec-h sec-toggle"><span class="caret">▸</span><span class="sdot"></span>已过期<span class="cnt" style="background:var(--s-closed)">${past.length}</span></div><div class="sec-body">${gridByMonth(past)}</div></div>`;
   }
   timeline.innerHTML=html;
 }
 
-/* modal detail */
-function openDetail(id){
-  const e=EVENTS.find(x=>x.id===id); if(!e)return;
+/* modal: 海报 / 文案 / 详情 */
+function rowsHtml(e){
   const dr=e.start?(e.end&&e.end!==e.start?`${e.start.replace(/-/g,'.')} – ${e.end.slice(5).replace('-','.')}（${e.days}天）`:`${e.start.replace(/-/g,'.')} ${e.weekday}`):'日期待定';
   const rows=[['地区',`${regFlag(e.region)} ${e.region}`],['日期',dr],['时间',e.time],['场地',e.venue],
     ['属性',e.attr],['报名',e.status+(e.cap?` · 容纳 ${e.reg!=null?e.reg+'/':''}${e.cap} 人`:'')],
     e.guest?['主讲/嘉宾',e.guest]:null,e.target?['目标客群',e.target]:null].filter(Boolean);
+  return rows.map(r=>`<div class="dt-r"><span class="k">${r[0]}</span><span class="v">${r[1]}</span></div>`).join('');
+}
+function openInvite(id){
+  const e=EVENTS.find(x=>x.id===id); if(!e)return;
+  const img=INVITE_IMG[id], c=INVITE_COPY[id];
+  const T=[],P=[];
+  if(img){T.push(['poster','🖼 海报']);P.push(['poster',`<img src="${encodeURI(img)}" alt="${e.title}" onerror="this.parentNode.innerHTML='<div class=ldfail>海报暂未上传</div>'">`]);}
+  if(c){T.push(['copy','📝 文案']);P.push(['copy',`<div class="copy-text">${c.text.replace(/</g,'&lt;')}</div>${c.signup?`<div class="copy-signup">${c.signup}</div>`:''}<button class="copybtn" onclick="copyInviteText(${id},this)">📋 复制文案到剪贴板</button>`]);}
+  T.push(['info','ℹ️ 详情']);P.push(['info',`<div class="dt-rows">${rowsHtml(e)}<div class="dt-sl">诺亚　懂金融，更懂华人。</div></div>`]);
+  const tabsHtml=T.length>1?`<div class="iv-tabs">${T.map((t,i)=>`<button class="iv-tab ${i===0?'on':''}" data-tab="${t[0]}">${t[1]}</button>`).join('')}</div>`:'';
+  const panesHtml=P.map((p,i)=>`<div class="iv-pane ${p[0]} ${i===0?'on':''}">${p[1]}</div>`).join('');
   modal.innerHTML=`<div class="detail"><button class="dt-close">×</button>
     <div class="dt-band" style="background:${regHex(e.region)}"><div class="dt-loc">${regFlag(e.region)} ${e.region}　·　${e.newClient==='VIP'?'仅限邀请':'开放新客'}</div><div class="dt-title">${e.title}</div></div>
-    <div class="dt-body">${rows.map(r=>`<div class="dt-r"><span class="k">${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}
-    <div class="dt-sl">诺亚　懂金融，更懂华人。</div></div></div>`;
+    ${tabsHtml}${panesHtml}</div>`;
   modal.classList.add('show');
 }
 function closeDetail(){modal.classList.remove('show');}
+function copyInviteText(id,btn){const c=INVITE_COPY[id];if(!c)return;const t=c.text+(c.signup?'\n\n'+c.signup:'');const done=()=>{const o=btn.textContent;btn.textContent='✅ 已复制';setTimeout(()=>btn.textContent=o,1800);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fbCopy(t,done));}else fbCopy(t,done);}
+function fbCopy(t,done){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(a);}
 
 /* events */
 document.getElementById('filters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;const t=c.dataset.t,v=c.dataset.v||null;if(t==='region')fRegion=v;else if(t==='attr')fAttr=v;else fStatus=v;renderChips();renderRegionBar();render();});
@@ -385,8 +496,12 @@ document.getElementById('regionBar').addEventListener('click',e=>{const c=e.targ
 document.getElementById('searchInput').addEventListener('input',e=>{fSearch=e.target.value;render();});
 document.getElementById('vTime').addEventListener('click',()=>{viewMode='time';vTime.classList.add('on');vRegion.classList.remove('on');render();});
 document.getElementById('vRegion').addEventListener('click',()=>{viewMode='region';vRegion.classList.add('on');vTime.classList.remove('on');render();});
-document.getElementById('timeline').addEventListener('click',e=>{const t=e.target.closest('.sec-toggle');if(t){t.closest('.tl-sec').classList.toggle('collapsed');return;}const c=e.target.closest('.ev');if(c)openDetail(+c.dataset.id);});
-document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal'||e.target.closest('.dt-close'))closeDetail();});
+document.getElementById('timeline').addEventListener('click',e=>{const t=e.target.closest('.sec-toggle');if(t){t.closest('.tl-sec').classList.toggle('collapsed');return;}const c=e.target.closest('.ev');if(c)openInvite(+c.dataset.id);});
+document.getElementById('modal').addEventListener('click',e=>{
+  const tab=e.target.closest('.iv-tab');
+  if(tab){const d=tab.closest('.detail');d.querySelectorAll('.iv-tab').forEach(b=>b.classList.toggle('on',b===tab));d.querySelectorAll('.iv-pane').forEach(p=>p.classList.toggle('on',p.classList.contains(tab.dataset.tab)));return;}
+  if(e.target.id==='modal'||e.target.closest('.dt-close'))closeDetail();
+});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
 
 /* init */
