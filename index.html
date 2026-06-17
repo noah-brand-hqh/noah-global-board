@@ -202,6 +202,7 @@ const regFlag=r=>REGION_FLAG[r]!==undefined?REGION_FLAG[r]:'📍';
 const ATTR_ORDER=['沙龙','生态合作活动','海外考察','路演','品鉴','投教','家族传承'];
 
 const EVENTS=[
+ {id:51,start:'2026-06-17',days:1,week:'W25',month:'2026-06',weekday:'周三',time:'13:30–14:30',region:'新加坡',title:'走进狮城 · 参访吉宝（Keppel）新加坡总部',attr:'海外考察',newClient:'VIP',guest:'',target:'',venue:'吉宝新加坡总部 Keppel HQ',cap:null,reg:null,status:'已开放报名',note:'SGX:BN4 · FUM≈S$95B · 建国企业 · 长期主义'},
  {id:50,start:'2026-06-18',days:1,week:'W25',month:'2026-06',weekday:'周四',time:'17:00–19:00',region:'新加坡',title:'「N+读书会」走读狮城 · Citywalk 行走读书会',attr:'品鉴',newClient:'Y',guest:'',target:'',venue:'新加坡 · 集合地点报名后通知',cap:null,reg:null,status:'已开放报名',note:''},
  {id:1,start:'2026-04-22',days:1,week:'W17',month:'2026-04',weekday:'周三',time:'14:00-17:00',region:'新加坡',title:'「投资下午茶」首期雅聚 · AI时代下的子女教育',attr:'沙龙',newClient:'Y',guest:'',target:'',venue:'ARK Singapore Office',cap:20,reg:20,status:'已结束'},
  {id:2,start:'2026-05-12',days:1,week:'W20',month:'2026-05',weekday:'周二',time:'14:00-17:00',region:'新加坡',title:'「生态合作」诺亚Ark新加坡 × Glory · 同业考察游学沙龙',attr:'生态合作活动',newClient:'Y',guest:'',target:'',venue:'ARK Singapore Office',cap:50,reg:50,status:'已结束'},
@@ -254,6 +255,8 @@ const EVENTS=[
  {id:49,start:'',days:1,week:'',month:'',weekday:'',time:'待定',region:'日本',title:'Olive走进日本（全委客户专场）',attr:'海外考察',newClient:'VIP',guest:'',target:'',venue:'日本',cap:null,reg:null,status:'筹备中'},
 ];
 const INVITE_IMG={
+  50:'invites/ev-citywalk.jpg',
+  51:'invites/ev-keppel.jpg',
   6:'invites/ev5-japan.png',
   7:'invites/ev6.jpg',
   9:'invites/ev7.png',
@@ -263,6 +266,21 @@ const INVITE_IMG={
   19:'invites/ev10.jpg'
 };
 const INVITE_COPY={
+  51:{text:`🏙 走进狮城 · 参访吉宝（Keppel）新加坡总部
+
+新加坡为何能从一个港口城市，成长为全球资本与资产管理的重要枢纽？
+
+6 月 17 日，Noah ARK SG 将带领受邀家族走进吉宝（Keppel）新加坡总部，近距离了解这家见证并参与新加坡发展的标志性企业。
+
+从港口、基础设施，到不动产与数据中心；从新加坡本土企业，到全球资产管理平台。
+
+这不仅是一场企业参访，更是一堂关于长期主义、城市发展与全球资产配置的现场课程。
+
+📍 吉宝新加坡总部　🗓 6 月 17 日（周三）　⏰ 13:30 – 14:30
+
+理解一座城市，最好的方式，是走进塑造它的企业。
+名额有限，仅开放受邀家族参与。`,
+    signup:`📩 少量名额 · 仅限受邀家族 · 请联系您的 RM 报名`},
   50:{text:`📚🚶 N+读书会 · 走读狮城 Citywalk 行走读书会
 
 一座城市，最好的打开方式，也许不是打卡景点，而是跟着懂它的人，一边行走，一边阅读。
