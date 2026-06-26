@@ -379,11 +379,11 @@ const _td=new Date();
 const TODAY=`${_td.getFullYear()}-${String(_td.getMonth()+1).padStart(2,'0')}-${String(_td.getDate()).padStart(2,'0')}`;
 const isPast=e=>e.start && (e.end||e.start)<TODAY;
 
-let fAttr=null,fStatus=null,fRegion=null,fSearch='',viewMode='time';
+let fAttr=null,fStatus=null,fRegion=new Set(),fSearch='',viewMode='time';
 
 function filtered(){
   const q=fSearch.trim().toLowerCase();
-  return EVENTS.filter(e=>(!fAttr||e.attr===fAttr)&&(!fStatus||e.status===fStatus)&&(!fRegion||e.region===fRegion)
+  return EVENTS.filter(e=>(!fAttr||e.attr===fAttr)&&(!fStatus||e.status===fStatus)&&(!fRegion.size||fRegion.has(e.region))
     &&(!q||(e.title+e.region+e.venue).toLowerCase().includes(q)));
 }
 function countBy(arr,key){const m={};arr.forEach(e=>m[e[key]]=(m[e[key]]||0)+1);return m;}
@@ -405,7 +405,7 @@ function regionsSorted(){const c=countBy(EVENTS,'region');return Object.keys(c).
 function renderRegionBar(){
   const c=countBy(EVENTS,'region'); const up=countBy(EVENTS.filter(e=>!isPast(e)),'region');
   regionBar.innerHTML=`<div class="rb-title">🌍 活动地区分布（点击筛选）</div><div class="rb-cards">`+
-    regionsSorted().map(r=>`<div class="rb-card ${fRegion===r?'on':''}" data-region="${r}" style="border-left-color:${regHex(r)}">
+    regionsSorted().map(r=>`<div class="rb-card ${fRegion.has(r)?'on':''}" data-region="${r}" style="border-left-color:${regHex(r)}">
       <div class="rb-flag">${regFlag(r)}</div>
       <div><div class="rb-name">${r}</div><div class="rb-meta"><b>${c[r]}</b> 场 · 即将 ${up[r]||0}</div></div>
     </div>`).join('')+`</div>`;
@@ -438,8 +438,8 @@ function renderStatus(){
 /* chips */
 function renderChips(){
   const reg=regionsSorted();
-  regionChips.innerHTML=`<span class="chip ${!fRegion?'on':''}" data-t="region" data-v="">全部</span>`+
-    reg.map(r=>`<span class="chip ${fRegion===r?'on':''}" data-t="region" data-v="${r}"><span class="cdot" style="background:${regHex(r)}"></span>${regFlag(r)} ${r}</span>`).join('');
+  regionChips.innerHTML=`<span class="chip ${!fRegion.size?'on':''}" data-t="region" data-v="">全部</span>`+
+    reg.map(r=>`<span class="chip ${fRegion.has(r)?'on':''}" data-t="region" data-v="${r}"><span class="cdot" style="background:${regHex(r)}"></span>${regFlag(r)} ${r}</span>`).join('');
   const attrs=ATTR_ORDER.filter(a=>EVENTS.some(e=>e.attr===a));
   attrChips.innerHTML=`<span class="chip ${!fAttr?'on':''}" data-t="attr" data-v="">全部</span>`+
     attrs.map(a=>`<span class="chip ${fAttr===a?'on':''}" data-t="attr" data-v="${a}">${a}</span>`).join('');
@@ -530,8 +530,8 @@ function copyInviteText(id,btn){const c=INVITE_COPY[id];if(!c)return;const t=c.t
 function fbCopy(t,done){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(a);}
 
 /* events */
-document.getElementById('filters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;const t=c.dataset.t,v=c.dataset.v||null;if(t==='region')fRegion=v;else if(t==='attr')fAttr=v;else fStatus=v;renderChips();renderRegionBar();render();});
-document.getElementById('regionBar').addEventListener('click',e=>{const c=e.target.closest('.rb-card');if(!c)return;fRegion=fRegion===c.dataset.region?null:c.dataset.region;renderChips();renderRegionBar();render();timeline.scrollIntoView({behavior:'smooth',block:'start'});});
+document.getElementById('filters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;const t=c.dataset.t,v=c.dataset.v||null;if(t==='region'){if(!v)fRegion.clear();else fRegion.has(v)?fRegion.delete(v):fRegion.add(v);}else if(t==='attr')fAttr=v;else fStatus=v;renderChips();renderRegionBar();render();});
+document.getElementById('regionBar').addEventListener('click',e=>{const c=e.target.closest('.rb-card');if(!c)return;{const r=c.dataset.region;fRegion.has(r)?fRegion.delete(r):fRegion.add(r);}renderChips();renderRegionBar();render();timeline.scrollIntoView({behavior:'smooth',block:'start'});});
 document.getElementById('searchInput').addEventListener('input',e=>{fSearch=e.target.value;render();});
 document.getElementById('vTime').addEventListener('click',()=>{viewMode='time';vTime.classList.add('on');vRegion.classList.remove('on');render();});
 document.getElementById('vRegion').addEventListener('click',()=>{viewMode='region';vRegion.classList.add('on');vTime.classList.remove('on');render();});
